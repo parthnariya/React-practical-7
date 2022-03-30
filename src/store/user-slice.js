@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { API_URL } from "../config/config.env";
 
-export const getUser = createAsyncThunk("user/getUser", async (page) => {
-  return fetch(`${process.env.REACT_APP_API_ENDPOINT}/users?page=${page}`).then( res => res.json())
+export const getUser = createAsyncThunk("user/getUser", async ({page,perPage}) => {
+  return fetch(`${API_URL}/users?page=${page}&per_page=${perPage}`).then( res => res.json())
   
 });
 
@@ -11,7 +12,8 @@ const userSlice = createSlice({
     users: [],
     status: null,
     totalPage:null,
-    currentPage:1
+    currentPage:1,
+    perPage : 2
   },
   extraReducers: {
     [getUser.pending]: (state, action) => {
@@ -21,6 +23,7 @@ const userSlice = createSlice({
       state.currentPage = payload.page
       state.totalPage = payload.total_pages
       state.users = payload.data;
+      state.perPage = payload.per_page
       state.status = "success";
     },
     [getUser.rejected]: (state, action) => {
