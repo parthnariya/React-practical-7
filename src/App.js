@@ -6,10 +6,10 @@ import { getUser } from "./store/user-slice";
 import AppStyle from "./styled/App.style.js";
 function App() {
   const dispatch = useDispatch()
-  const {currentPage} = useSelector(state => state.user)
+  const {currentPage,perPage} = useSelector(state => state.user)
   useEffect(() => {
-   dispatch(getUser(currentPage)) 
-  },[])
+   dispatch(getUser({currentPage,perPage})) 
+  },[dispatch])
   
   return (
     <AppStyle>
